@@ -133,10 +133,12 @@ app.delete('/logout', authController.log_out);
 app.post('/contact', (req, res) => {
     const GMAIL_USER = process.env.GMAIL_USER;
     const GMAIL_PASS = process.env.GMAIL_PASS;
+    const GMAIL_PORT = process.env.GMAIL_PORT;
+    const GMAIL_HOST = process.env.GMAIL_HOST;
 
     const smtpTrans = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
+      host: GMAIL_HOST,
+      port: GMAIL_PORT,
       secure: true,
       auth: {
         user: GMAIL_USER,
