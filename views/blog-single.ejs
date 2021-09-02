@@ -1,0 +1,57 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+    <%- include('./partials/nav.ejs')  %> 
+
+    <div class="wrapper">
+
+        <div class="blogHeader">
+            <p class="center blogdate">
+                <% var date = new Date(post.updatedAt); var dateStr = date.getFullYear() + "年" + ("00" + (date.getMonth() + 1)).slice(-2) + "月" + ("00" + date.getDate()).slice(-2) + "日";%><%=dateStr%>
+            </p>
+
+            <% post.header.forEach((theblock, index) => { %>
+            <% if (theblock.type == "header" && theblock.data.level == 1 ) { %>
+                <h1><%= theblock.data.text %></h1>
+            <% }}); %>
+        </div>
+    
+        <div class="content blog-single">
+            <% post.body.forEach((theblock, index) => { %>
+                <% if (theblock.type == "paragraph") { %>
+                    <p><%- theblock.data.text %></p>
+                <% } else if (theblock.type == "image") { %>
+                    <img class="blogInline" src="<%= theblock.data.file.url %>" alt="image">
+                    <p class="caption"><%- theblock.data.caption %></p>
+                <% } else if (theblock.type == "header" && theblock.data.level == 3 ) { %>
+                    <h3 class="blog_heading"><%= theblock.data.text %></h3>
+                <% } else if (theblock.type == "list" && theblock.data.style == 'unordered' ) { %>
+                    <ul class="blog-list">
+                        <% theblock.data.items.forEach((item, index) => { %>
+                        <li><%= item %></li>
+                        <% }) %>
+                    </ul>
+                <% } else if (theblock.type == "list" && theblock.data.style == 'ordered' ) { %>
+                    <ol class="blog-list">
+                        <% theblock.data.items.forEach((item, index) => { %>
+                        <li><%= item %></li>
+                        <% }) %>
+                    </ol>
+                <% } else if (theblock.type == "header" && theblock.data.level == 3 ) { %>
+                    <h3><%= theblock.data.text %></h3>
+                <% }}); %>
+            <%- include('./partials/contBanner.ejs')  %> 
+    </div>
+
+    <div class="moreBlogs">
+        <% for(let b = 0; b < 3; b++) {%>
+            <div class="moreBlog">
+                <h3>他の記事のタイトル</h3>
+            </div>
+        <% } %>
+    </div>
+
+    <%- include('./partials/footer.ejs')  %> 
+
+</body>

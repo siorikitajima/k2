@@ -1,0 +1,42 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+    <%- include('./partials/nav.ejs')  %> 
+
+    <div class="wrapper">
+
+        <div class="fullWBanner">
+            <img src="images/joanna-kosinska-uGcDWKN91Fs-unsplash.jpg" alt="homeimg">
+            <h1>お問い合わせ</h1>
+        </div>
+    
+        <div class="content">
+            <p>２営業日以内にメールでご返信させていただきます。お急ぎの方はお気軽に００−００００−００００までお電話ください。通常営業時間は平日の午前９時から午後５時です。</p>
+            
+            <form action="/contact" method="POST" role="form">
+                <label for="name">お名前</label>
+                <input type="text" id="name" name="name">
+                <label for="email">メールアドレス</label>
+                <input type="text" id="email" name="email">
+                <label for="phone">電話番号</label>
+                <input type="text" id="phone" name="phone">
+                <label for="service">ご相談内容</label>
+                <select name="service" id="service">
+                    <option value="hoken">選択してください</option>
+                    <option value="労働・社会保険">労働・社会保険</option>
+                    <option value="各種助成金">各種助成金</option>
+                    <option value="障害年金">障害年金</option>
+                    <option value="各種コンサルティング">各種コンサルティング</option>
+                    <option value="その他">その他</option>
+                </select>
+                <label for="message">ご相談内容の詳細</label>
+                <textarea type="text" id="message" name="message"></textarea>
+                <button>送　信</button>
+            </form>
+        </div>
+
+    </div>
+    <%- include('./partials/footer.ejs')  %> 
+
+</body>

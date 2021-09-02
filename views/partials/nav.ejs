@@ -1,0 +1,33 @@
+<nav>
+    <a href="/"><div class="logo">北島社会保険労務士事務所</div></a>
+    <div class="navItems">
+        <div class="mobileNav" onclick="mobileMenu()">
+            <img src="<% if (nav === 'blog-single') { %>../images/menu.svg <% } else { %>images/menu.svg<% } %>" alt="">
+        </div>
+        <ul>
+            <a href="/consult"><li <% if (nav === 'consult') { %>class="current" <% } %> >ご相談の流れ</li></a>
+            <a href="/info"><li <% if (nav === 'info' || nav === 'blog-single' || nav === 'blog-editor') { %>class="current" <% } %> >知恵袋</li></a>
+            <a href="/service"><li <% if (nav === 'service') { %>class="current" <% } %> >サービス</li></a>
+            <a href="/about"><li <% if (nav === 'about') { %>class="current" <% } %> >事務所紹介</li></a>
+            <a href="/contact"><li <% if (nav === 'contact') { %>class="current" <% } %> >お問い合わせ</li></a>
+            <li class="logBtn">        
+                <a href="/login">
+                <button>ログイン</button>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<script>
+    let menuOpen = false;
+    let mobileNav = document.querySelector('.navItems > ul');
+    function mobileMenu() {
+        if(!menuOpen) {
+            mobileNav.style.display = 'block';
+        } else {
+            mobileNav.style.display = 'none';
+        }
+        menuOpen = !menuOpen;
+    }
+
+</script>

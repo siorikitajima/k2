@@ -1,0 +1,127 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+    <nav>
+        <a href="/"><div class="logo">北島社会保険労務士事務所</div></a>
+        <div class="navItems">
+            <form class="logBtn" action="/logout?_method=DELETE" method="POST">
+            <button type="submit">ログアウト</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="wrapper">
+
+        <div class="fullWBanner blogList">
+            <img src="images/patrick-tomasso-Oaqk7qqNh_c-unsplash.jpg" alt="homeimg">
+            <h1>知恵袋編集部</h1>
+        </div>
+    
+        <div class="content">
+
+            <div class="createNew" onclick="newPanel()">
+                + 新しい記事
+            </div>
+
+        <% if (posts.length > 0) { %>
+            <% posts.forEach((thepost, index) => { %>
+                    <div class="blog blogContainer <%- thepost.published ? 'published' : null %>" id="<%= thepost.name %>" data-index='<%= index %>'>
+                        <a href="edit/<%= thepost.name %>">
+                            <div class="blog-text">
+                                <p><b>ID: </b><%= thepost.name %></p>
+                                <h3><%= thepost.title %></h3>
+                                <p><b>ステータス:</b> <%- thepost.published ? '公開済み' : '下書き' %><br/>
+                                <b>更新日時:</b> <% var date = new Date(thepost.updatedAt); var dateStr = date.getFullYear() + "年" + ("00" + (date.getMonth() + 1)).slice(-2) + "月" + ("00" + date.getDate()).slice(-2) + "日" + " " + ("00" + date.getHours()).slice(-2) + "時" + ("00" + date.getMinutes()).slice(-2) + "分" + ("00" + date.getSeconds()).slice(-2) + "秒";%><%=dateStr%></p>
+                            </div>
+                        </a>
+                        <div class="actions">
+                            <div class="actionBtn renameBtn" data-name="<%= thepost.name %>">ＩＤを変更</div>
+                            <div class="actionBtn deleteBtn" data-name="<%= thepost.name %>">消去する</div>
+                        </div>
+                    </div>
+            <% }) %>
+            <% } else { %>
+                    <p>No post to display</p>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="hidden" id="transparentScreen" onclick="newPanel()">
+    </div>
+    <div class="forms newPanel hidden" id="newPanel">
+        <h3>新しい記事のＩＤ</h3>
+        <div class="closebtn" onclick="newPanel()"></div>
+        <p class="exp">半角ローマ字で１単語のＩＤを入力してください。<br/>２単語以上ある場合は、半角ハイフンでつなげてください。<br/>例：'<b>syougai-nenkin</b>'<br/>このＩＤが、この記事のページのアドレスになります。<br/>例：'website.com/info/<b>syougai-nenkin</b>'</p>
+        <form id="postForm" action="/blogList" method="POST">
+            <div class="formItem">
+            <input type="text" id="blogname" name="blogname" placeholder="例：syougai-nenkin"/>
+            </div>
+            <button class="disabled" id="createBtn" disabled>記事を作成する</button>
+        </form>
+    </div>
+    
+    <div class="hidden" id="transparentScreen2" onclick="deletePanel()"></div>
+    <form class="forms newPanel hidden" id="deletePanel" action="/blogDelete" method="POST">
+        <h3>"<span class="blogNameHere"></span>"を消去しますか？</h3>
+        <div class="closebtn" onclick="deletePanel()"></div>
+        <p>消去ボタンを押すと、記事は完全に消去されます。<br/>この操作は取り消せません。</p>
+        <input class="hiddenblogName" type="hidden" name="oldname">
+        <input class="formButton" type="submit" value="消去する">
+    </form>
+
+    <div class="hidden" id="transparentScreen3" onclick="renamePanel()"></div>
+    <form class="newPanel forms hidden" id="renamePanel" action="/blogRename" method="POST">
+        <h3>"<span class="blogNameHere"></span>"のＩＤを変更します。</h3>
+        <div class="closebtn" onclick="renamePanel()"></div>
+        <p class="exp">半角ローマ字で、１単語にしてください。<br/>２単語以上ある場合は、半角ハイフンでつなげてください。<br/>例：'<b>syougai-nenkin</b>'<br/>このＩＤが、この記事のページのアドレスになります。<br/>例：'website.com/info/<b>syougai-nenkin</b>'</p>
+        <input type="text" name="newname" id="newname" placeholder="例：syougai-nenkin">
+        <input class="hiddenblogName" type="hidden" name="oldname">
+        <input class="formButton" type="submit" value="新しいＩＤを保存">
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+    function newPanel() {
+            if($('#newPanel').hasClass('hidden')) {
+                $('#newPanel, #transparentScreen').removeClass('hidden');
+            } else {
+                $('#newPanel, #transparentScreen').addClass('hidden');
+            }
+        }
+    function deletePanel() {
+        if($('#deletePanel').hasClass('hidden')) {
+            } else {
+                $('#deletePanel, #transparentScreen2').addClass('hidden');
+            }
+    }
+    function renamePanel() {
+        if($('#renamePanel').hasClass('hidden')) {
+            } else {
+                $('#renamePanel, #transparentScreen3').addClass('hidden');
+            }
+    }
+        $('#blogname').on('change', () => {
+        $('#createBtn').removeClass('disabled');
+        $('#createBtn').removeAttr('disabled');
+    })        
+    $(document).ready(()=> {
+        $('.deleteBtn').on('click', (e)=> {
+            $target = $(e.target);
+            let theName = $target.attr('data-name');
+            $('.blogNameHere').html(theName);
+            $('.hiddenblogName').val(theName);
+            $('#deletePanel, #transparentScreen2').removeClass('hidden');
+        });
+        $('.renameBtn').on('click', (e)=> {
+            $target = $(e.target);
+            let theName = $target.attr('data-name');
+            $('.blogNameHere').html(theName);
+            $('.hiddenblogName').val(theName);
+            $('#renamePanel, #transparentScreen3').removeClass('hidden');
+        });
+    })
+
+    </script>
+
+</body>

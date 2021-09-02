@@ -1,0 +1,26 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+    <%- include('./partials/nav.ejs')  %> 
+
+    <div class="wrapper">
+
+        <div class="fullWBanner">
+            <img src="images/joanna-kosinska-uGcDWKN91Fs-unsplash.jpg" alt="homeimg">
+        </div>
+    
+        <div class="content center">
+            <img src="images/sent.svg" alt="message sent">
+            <h3>お問い合せありがとうございます。</h3>
+            <p>通常２営業日以内にご返信いたしております。お急ぎの場合は、００００−００００までお気軽にお電話ください。</p>
+            <p>２秒後に自動的にトップページに移動します。</p>
+        </div>
+
+    </div>
+    <%- include('./partials/footer.ejs')  %> 
+
+    <script>
+        setTimeout(() => {location.href="/"} , 2000);
+    </script>
+</body>

@@ -1,0 +1,42 @@
+<html lang="en">
+    <%- include('./partials/head.ejs')  %> 
+
+<body>
+    <%- include('./partials/nav.ejs')  %> 
+
+    <div class="wrapper">
+
+        <div class="fullWBanner">
+            <img src="images/jan-antonin-kolar-lRoX0shwjUQ-unsplash.jpg" alt="homeimg">
+            <h1>知恵袋</h1>
+        </div>
+    
+        <div class="content">
+            <div class="blogs">
+                <% posts.forEach((thepost, index) => { %>
+                    <% if (thepost.published == true) { %>
+                <div class="blog">
+                    <div class="blog-thumb">
+                        <img src="<%= thepost.featimg %>" alt="blog thumbnail">
+                    </div>
+                    <div class="blog-text">
+                        <h3><%= thepost.title %></h3>
+                        <p><%= thepost.desc %></p>
+                        <a href="/info/<%= thepost.name %>">
+                        <div class="readBtn"><p>続きを読む >></p></div>
+                        </a>
+                    </div>
+                </div>
+                    <% } %>
+                <% }) %>
+
+            </div>
+
+            <%- include('./partials/contBanner.ejs')  %> 
+
+        </div>
+
+    </div>
+    <%- include('./partials/footer.ejs')  %> 
+
+</body>
